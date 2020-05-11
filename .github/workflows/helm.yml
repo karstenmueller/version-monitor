@@ -9,6 +9,8 @@ on:
       - master
 
 env:
+  GITHUB_TOKEN: ${{ secrets.github_token }}
+  COMMIT_MSG: "auto commit"
   helm_version: "3.2.1"
 
 jobs:
@@ -23,9 +25,12 @@ jobs:
         run: helm lint helm/
       - name: release helm chart
         run: bash helm/release.sh
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.PUBLISH_TOKEN }}
-          publish_branch: master
-          publish_dir: ./docs
+      - name: commit and push
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GH Action"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+          git checkout master
+          git add .
+          # Only commit and push if we have changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin master)
