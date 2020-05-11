@@ -1,3 +1,4 @@
 version-monitor
 version-monitor.yaml
-docs/
+docs/*
+!docs/.gitkeep
