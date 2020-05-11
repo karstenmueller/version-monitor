@@ -22,4 +22,4 @@ jobs:
       - name: lint helm chart
         run: helm lint helm/
       - name: release helm chart
-        run: bash helm/realease.sh
+        run: bash helm/release.sh
