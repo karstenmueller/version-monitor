@@ -23,3 +23,9 @@ jobs:
         run: helm lint helm/
       - name: release helm chart
         run: bash helm/release.sh
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PUBLISH_TOKEN }}
+          publish_branch: master
+          publish_dir: ./docs
