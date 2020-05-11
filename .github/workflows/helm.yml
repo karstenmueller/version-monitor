@@ -27,10 +27,11 @@ jobs:
         run: bash helm/release.sh
       - name: commit and push
         run: |
+          ls -l helm/
           git config user.email "action@github.com"
           git config user.name "GH Action"
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git checkout master
           git add .
           # Only commit and push if we have changes
-          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin master)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin gh-pages)
