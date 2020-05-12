@@ -4,3 +4,4 @@ version-monitor.yaml
 docs/*
 !docs/.gitkeep
 .deploy
+.envrc
