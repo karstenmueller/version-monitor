@@ -8,36 +8,18 @@ script_dir=$(
     cd "$(dirname "$0")"
     pwd -P
 )
+tools_dir="$script_dir/.tools"
 deploy_dir="$script_dir/.deploy"
-mkdir -p "$deploy_dir"
+mkdir -p "$tools_dir" "$deploy_dir"
 
-# export CR_VERSION="0.2.3"
-export CR_VERSION="1.0.0-beta.1"
-
-export CR_OWNER=karstenmueller
-export CR_CHARTS_REPO=http://karstenmueller.me/version-monitor/
-export CR_GIT_REPO=version-monitor
 export CR_PACKAGE_PATH="$deploy_dir"
-export CR_TOKEN="$GH_TOKEN" # from environment
 
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
     curl -sSL https://github.com/helm/chart-releaser/releases/download/v"$CR_VERSION"/chart-releaser_"$CR_VERSION"_"$os_name"_amd64.tar.gz |
-        tar -C "$deploy_dir" -xzf -
-    rm -f "$deploy_dir"/{LICENSE,README.md}
+        tar -C "$tools_dir" -xzf -
 }
 
-target_upload() {
-    helm package "$script_dir/helm" --destination "$deploy_dir"
-    "$deploy_dir"/cr upload
-}
-
-target_index() {
-    "$deploy_dir"/cr index --index-path index.yaml
-}
-
-# helm repo index docs/ --url https://github.io/fielmann-ag/version-monitor/docs
-"$deploy_dir"/cr version 2>/dev/null || target_install
-
-cmd=${1:-index}
-"target_${cmd}"
+"$tools_dir"/cr version 2>/dev/null || target_install
+helm package "$script_dir/helm" --destination "$deploy_dir"
+"$tools_dir"/cr upload
