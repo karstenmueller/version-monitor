@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  version-monitor:
+  - apiVersion: v1
+    appVersion: 0.1.0
+    created: "2020-05-12T17:46:23.216522+02:00"
+    description: Version-Monitor watches deployed versions of used software and compares
+      them to the latest versions
+    digest: f1565509ecccdd0cf72b4a099e66beb68a1f6162e8bee7d1e6c7bcf20bd000f4
+    name: version-monitor
+    urls:
+    - https://github.com/karstenmueller/version-monitor/releases/download/version-monitor-0.1.0/version-monitor-0.1.0.tgz
+    version: 0.1.0
+generated: "2020-05-12T17:46:22.91858+02:00"
