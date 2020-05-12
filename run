@@ -23,7 +23,7 @@ target_install() {
 }
 
 target_upload() {
-    helm package "$script_dir" --destination "$deploy_dir"
+    helm package "$script_dir/helm" --destination "$deploy_dir"
     "$deploy_dir"/cr upload
 }
 
