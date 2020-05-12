@@ -23,15 +23,14 @@ jobs:
         run: curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | DESIRED_VERSION=v${{ env.helm_version }} bash
       - name: lint helm chart
         run: helm lint helm/
-      - name: release helm chart
-        run: bash helm/release.sh
-      - name: commit and push
-        run: |
-          ls -l helm/
-          git config user.email "action@github.com"
-          git config user.name "GH Action"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          git checkout master
-          git add .
-          # Only commit and push if we have changes
-          git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin gh-pages)
+      # - name: release helm chart
+      #   run: bash helm/release.sh
+      # - name: commit and push
+      #   run: |
+      #     ls -l helm/
+      #     git config user.email "action@github.com"
+      #     git config user.name "GH Action"
+      #     git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+      #     git add .
+      #     # Only commit and push if something changed
+      #     git diff --quiet && git diff --staged --quiet || (git commit -m "${COMMIT_MSG}"; git push origin gh-pages)
