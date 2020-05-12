@@ -10,6 +10,9 @@ script_dir=$(
 )
 deploy_dir="$script_dir/.deploy"
 
+# export CR_VERSION="0.2.3"
+export CR_VERSION="1.0.0-beta.1"
+
 export CR_OWNER=karstenmueller
 export CR_CHARTS_REPO=http://karstenmueller.me/version-monitor/
 export CR_GIT_REPO=version-monitor
@@ -18,7 +21,7 @@ export CR_TOKEN="$GH_TOKEN" # from environment
 
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
-    curl -sSL https://github.com/helm/chart-releaser/releases/download/v0.2.3/chart-releaser_0.2.3_"$os_name"_amd64.tar.gz |
+    curl -sSL https://github.com/helm/chart-releaser/releases/download/v"$CR_VERSION"/chart-releaser_"$CR_VERSION"_"$os_name"_amd64.tar.gz |
         tar -C "$deploy_dir" -xzf -
 }
 
