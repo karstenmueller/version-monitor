@@ -8,7 +8,6 @@ script_dir=$(
     cd "$(dirname "$0")"
     pwd -P
 )
-
 tools_dir="$script_dir/.tools"
 deploy_dir="$script_dir/.deploy"
 mkdir -p "$tools_dir" "$deploy_dir"
@@ -17,9 +16,16 @@ export CR_PACKAGE_PATH="$deploy_dir"
 
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
+    curl -sSL https://get.helm.sh/helm-v"$HELM_VERSION"-"$os_name"-amd64.tar.gz |
+        tar -C "$tools_dir" -xzf -
+    mv "$tools_dir"/"$os_name"-amd64/helm "$tools_dir"/helm
     curl -sSL https://github.com/helm/chart-releaser/releases/download/v"$CR_VERSION"/chart-releaser_"$CR_VERSION"_"$os_name"_amd64.tar.gz |
         tar -C "$tools_dir" -xzf -
 }
 
-"$tools_dir"/cr version 2>/dev/null || target_install
+printf "install cr: "
+"$tools_dir"/cr version >/dev/null 2>&1 || target_install
+"$tools_dir"/cr version
+
+echo "create index:"
 "$tools_dir"/cr index --index-path index.yaml
