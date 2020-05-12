@@ -10,7 +10,10 @@ script_dir=$(
 )
 
 tools_dir="$script_dir/.tools"
-mkdir -p "$tools_dir"
+deploy_dir="$script_dir/.deploy"
+mkdir -p "$tools_dir" "$deploy_dir"
+
+export CR_PACKAGE_PATH="$deploy_dir"
 
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
