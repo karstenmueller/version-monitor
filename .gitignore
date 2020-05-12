@@ -1,0 +1,6 @@
+bin
+version-monitor
+version-monitor.yaml
+docs/*
+!docs/.gitkeep
+.deploy
