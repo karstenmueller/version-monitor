@@ -16,10 +16,21 @@ export CR_PACKAGE_PATH="$deploy_dir"
 
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
+    curl -sSL https://get.helm.sh/helm-v"$HELM_VERSION"-"$os_name"-amd64.tar.gz |
+        tar -C "$tools_dir" -xzf -
+    mv "$tools_dir"/"$os_name"-amd64/helm "$tools_dir"/helm
     curl -sSL https://github.com/helm/chart-releaser/releases/download/v"$CR_VERSION"/chart-releaser_"$CR_VERSION"_"$os_name"_amd64.tar.gz |
         tar -C "$tools_dir" -xzf -
 }
 
-"$tools_dir"/cr version 2>/dev/null || target_install
-helm package "$script_dir/helm" --destination "$deploy_dir"
+printf "helm: "
+"$tools_dir"/helm version >/dev/null 2>&1 || target_install
+"$tools_dir"/helm version
+
+printf "cr: "
+"$tools_dir"/cr version >/dev/null 2>&1 || target_install
+"$tools_dir"/cr version
+
+echo "package & upload:"
+"$tools_dir"/helm package "$script_dir/helm" --destination "$deploy_dir"
 "$tools_dir"/cr upload
