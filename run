@@ -14,6 +14,11 @@ mkdir -p "$tools_dir" "$deploy_dir"
 
 export CR_PACKAGE_PATH="$deploy_dir"
 
+printb() {
+    local string="$1"
+    builtin printf '%b%b%b' '\033[0;34m' "$string" '\033[0m'
+}
+
 target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
     curl -sSL https://get.helm.sh/helm-v"$HELM_VERSION"-"$os_name"-amd64.tar.gz |
@@ -23,9 +28,9 @@ target_install() {
         tar -C "$tools_dir" -xzf -
 }
 
-printf "install cr: "
+printb "install cr:\n"
 "$tools_dir"/cr version >/dev/null 2>&1 || target_install
 "$tools_dir"/cr version
 
-echo "create index:"
+printb "create index:\n"
 "$tools_dir"/cr index --index-path index.yaml
