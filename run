@@ -9,6 +9,7 @@ script_dir=$(
     pwd -P
 )
 deploy_dir="$script_dir/.deploy"
+mkdir -p "$deploy_dir"
 
 # export CR_VERSION="0.2.3"
 export CR_VERSION="1.0.0-beta.1"
@@ -23,6 +24,7 @@ target_install() {
     os_name=$(uname | tr '[:upper:]' '[:lower:]')
     curl -sSL https://github.com/helm/chart-releaser/releases/download/v"$CR_VERSION"/chart-releaser_"$CR_VERSION"_"$os_name"_amd64.tar.gz |
         tar -C "$deploy_dir" -xzf -
+    rm -f "$deploy_dir"/{LICENSE,README.md}
 }
 
 target_upload() {
