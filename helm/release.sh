@@ -12,9 +12,9 @@ deploy_dir="$script_dir/../.deploy"
 
 os_name=$(uname | tr '[:upper:]' '[:lower:]')
 curl -sSL https://github.com/helm/chart-releaser/releases/download/v0.2.3/chart-releaser_0.2.3_"$os_name"_amd64.tar.gz |
-    tar xzf -C "$deploy_dir" -
+    tar -C "$deploy_dir" -xzf -
 
-helm package . --destination "$deploy_dir"
+helm package "$script_dir" --destination "$deploy_dir"
 
 # helm repo index docs/ --url https://github.io/fielmann-ag/version-monitor/docs
 
